@@ -66,7 +66,7 @@ template<> inline double exp(double x)
  * \return n The number of elements in the array.
  */
 template <typename Real>
-inline void exp_v(Real *x, size_t n) {
+inline void exp(Real *x, size_t n) {
     // Vectorized part.
     #pragma omp simd
     for (size_t i = 0; i < n; ++i) {
@@ -86,7 +86,7 @@ inline void exp_v(Real *x, size_t n) {
  * \return n The number of elements in the array.
  */
 template <typename Real>
-inline void exp(Real *x, size_t n) {
+inline void exp_nv(Real *x, size_t n) {
     for (size_t i = 0; i < n; ++i) {
         Real e = fast::exp(x[i]);
         x[i] = e;
