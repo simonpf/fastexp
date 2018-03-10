@@ -21,6 +21,22 @@ extern "C" {
         fast::exp<double>(x, n);
     }
 
+    void exp256_v_s(float *x, size_t n) {
+        fast::exp256<float>(x, n);
+    }
+
+    void exp256_v_d(double *x, size_t n) {
+        fast::exp256<double>(x, n);
+    }
+
+    void exp1024_v_s(float *x, size_t n) {
+        fast::exp1024<float>(x, n);
+    }
+
+    void exp1024_v_d(double *x, size_t n) {
+        fast::exp1024<double>(x, n);
+    }
+
     void exp_nv_s(float *x, size_t n) {
         fast::exp_nv<float>(x, n);
     }

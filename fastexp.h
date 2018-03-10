@@ -1,6 +1,7 @@
 #ifndef FASTEXP_H
 #define FASTEXP_H
 
+#include "math.h"
 #include <cstdint>
 #include <cstddef>
 
@@ -34,7 +35,7 @@ template<> inline float exp(float x)
     constexpr uint32_t shift = static_cast<uint32_t>(1) << 23;
 
     x *= 1.442695040f;
-    float xi = static_cast<uint32_t>(x);
+    float xi = floor(x);
     float xf = x - xi + 1.0;
 
     uint32_t e = reinterpret_cast<const uint32_t &>(xf);
@@ -47,12 +48,44 @@ template<> inline double exp(double x)
     constexpr uint64_t shift = static_cast<uint64_t>(1) << 52;
 
     x *= 1.442695040d;
-    double xi = static_cast<uint64_t>(x);
+    double xi = floor(x);
     double xf = x - xi + 1.0;
 
     uint64_t e = reinterpret_cast<const uint64_t &>(xf);
     e += shift * static_cast<uint64_t>(xi);
     return reinterpret_cast<double &>(e);
+}
+
+#pragma omp declare simd notinbranch
+template<typename Real> inline Real exp256(Real x)
+{
+    x = 1.0 + x / 256.0;
+    x *= x;
+    x *= x;
+    x *= x;
+    x *= x;
+    x *= x;
+    x *= x;
+    x *= x;
+    x *= x;
+    return x;
+}
+
+#pragma omp declare simd notinbranch
+template<typename Real> inline Real exp1024(Real x)
+{
+    x = 1.0 + x / 1024.0;
+    x *= x;
+    x *= x;
+    x *= x;
+    x *= x;
+    x *= x;
+    x *= x;
+    x *= x;
+    x *= x;
+    x *= x;
+    x *= x;
+    return x;
 }
 
 /** \brief Fast approximate array exponential.
@@ -71,6 +104,26 @@ inline void exp(Real *x, size_t n) {
     #pragma omp simd
     for (size_t i = 0; i < n; ++i) {
         Real e = fast::exp(x[i]);
+        x[i] = e;
+    }
+}
+
+template <typename Real>
+    inline void exp256(Real *x, size_t n) {
+    // Vectorized part.
+    #pragma omp simd
+    for (size_t i = 0; i < n; ++i) {
+        Real e = fast::exp256(x[i]);
+        x[i] = e;
+    }
+}
+
+template <typename Real>
+    inline void exp1024(Real *x, size_t n) {
+    // Vectorized part.
+#pragma omp simd
+    for (size_t i = 0; i < n; ++i) {
+        Real e = fast::exp1024(x[i]);
         x[i] = e;
     }
 }

@@ -43,8 +43,12 @@ void exp(Real *x, size_t n) {
 
 int main() {
     benchmark_function(&fast::exp<float>, "exp, float (OpenMP)", 10000000, 100);
+    benchmark_function(&fast::exp256<float>, "exp256, float", 10000000, 100);
+    benchmark_function(&fast::exp1024<float>, "exp1024, float", 10000000, 100);
     benchmark_function(&fast::exp_nv<float>, "exp, float", 10000000, 100);
     benchmark_function(&fast::exp<double>, "exp_v, double (OpenMP)", 10000000, 100);
+    benchmark_function(&fast::exp256<double>, "exp256, double", 10000000, 100);
+    benchmark_function(&fast::exp1024<double>, "exp1024, double", 10000000, 100);
     benchmark_function(&fast::exp_nv<double>, "exp_v, double", 10000000, 100);
     benchmark_function(&exp<float>, "exp, float, math.h", 10000000, 100);
     benchmark_function(&exp<double>, "exp, double, math.h", 10000000, 100);
