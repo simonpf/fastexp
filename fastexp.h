@@ -36,9 +36,12 @@ template<> inline float exp(float x)
 
     x *= 1.442695040f;
     float xi = floor(x);
-    float xf = x - xi + 1.0;
+    float xf = x - xi;
 
-    uint32_t e = reinterpret_cast<const uint32_t &>(xf);
+    float k = (0.34 * xf + 0.64) * xf + 1.0036;
+
+    //float k = 0.34271434 * xf * xf + 0.64960693 * xf + 1.00365539;
+    uint32_t e = reinterpret_cast<const uint32_t &>(k);
     e += shift * static_cast<uint32_t>(xi);
     return reinterpret_cast<float &>(e);
 }
@@ -48,7 +51,7 @@ template<> inline double exp(double x)
     constexpr uint64_t shift = static_cast<uint64_t>(1) << 52;
 
     x *= 1.442695040d;
-    double xi = static_cast<uint32_t>(x);
+    double xi = static_cast<uint64_t>(x);
     double xf = x - xi + 1.0;
 
     uint64_t e = reinterpret_cast<const uint64_t &>(xf);
