@@ -48,7 +48,7 @@ template<> inline double exp(double x)
     constexpr uint64_t shift = static_cast<uint64_t>(1) << 52;
 
     x *= 1.442695040d;
-    double xi = floor(x);
+    double xi = static_cast<uint32_t>(x);
     double xf = x - xi + 1.0;
 
     uint64_t e = reinterpret_cast<const uint64_t &>(xf);
