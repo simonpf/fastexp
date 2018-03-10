@@ -4,3 +4,4 @@ project (fastexp)
 set(CMAKE_CXX_STANDARD 11)
 
 add_library(fast SHARED fastexp.cpp)
+add_executable(benchmark benchmark.cpp)
