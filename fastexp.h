@@ -38,7 +38,8 @@ template<> inline float exp(float x)
     float xi = floor(x);
     float xf = x - xi;
 
-    float k = (0.34 * xf + 0.64) * xf + 1.0036;
+    float k = xf + 1.0;
+    //float k = (0.34 * xf + 0.64) * xf + 1.0036;
 
     //float k = 0.34271434 * xf * xf + 0.64960693 * xf + 1.00365539;
     uint32_t e = reinterpret_cast<const uint32_t &>(k);
