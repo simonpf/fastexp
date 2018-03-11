@@ -81,6 +81,7 @@ using fastexp::Schraudolph;
 using fastexp::Product;
 
 int main() {
+    std::cout << "Single Precistion:" << std::endl;
     benchmark_function(&fastexp::exp<float, Schraudolph, 0>,
                        "Schraudolph, 0", 10000000, 100);
     benchmark_function(&fastexp::exp<float, Schraudolph, 1>,
@@ -94,4 +95,21 @@ int main() {
     benchmark_function(&fastexp::exp<float, Product, 12>,
                        "Product, 12", 10000000, 100);
     benchmark_function(&exp<float>, "exp, math.h", 10000000, 100);
+    std::cout << std::endl;
+
+    std::cout << "Double Precistion:" << std::endl;
+    benchmark_function(&fastexp::exp<double, Schraudolph, 0>,
+                       "Schraudolph, 0", 10000000, 100);
+    benchmark_function(&fastexp::exp<double, Schraudolph, 1>,
+                       "Schraudolph, 1", 10000000, 100);
+    benchmark_function(&fastexp::exp<double, Schraudolph, 2>,
+                       "Schraudolph, 2", 10000000, 100);
+    benchmark_function(&fastexp::exp<double, Product, 8>,
+                       "Product, 8", 10000000, 100);
+    benchmark_function(&fastexp::exp<double, Product, 10>,
+                       "Product, 10", 10000000, 100);
+    benchmark_function(&fastexp::exp<double, Product, 12>,
+                       "Product, 12", 10000000, 100);
+    benchmark_function(&exp<double>, "exp, math.h", 10000000, 100);
+    std::cout << std::endl;
 }
