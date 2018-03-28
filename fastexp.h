@@ -6,12 +6,12 @@
 #include <cstddef>
 #include <vector>
 #include "product.h"
-#include "schraudolph.h"
+#include "ieee.h"
 
 namespace fastexp
 {
 
-enum class Approximation {SCHRAUDOLPH, PRODUCT};
+enum class Approximation {IEEE, PRODUCT};
 
 /** \brief Fast approximate exponential.
  *
@@ -21,7 +21,7 @@ enum class Approximation {SCHRAUDOLPH, PRODUCT};
  * - Malossi, A. Cristiano I. & Ineichen, Yves & Bekas, Costas & Curioni,
  *   Alessandro. "Fast Exponential Computation on SIMD Architectures." (2015)
  *   10.13140/2.1.4362.3207.
- * - Schraudolph, Nicol N. "A fast, compact approximation of the exponential
+ * - IEEE, Nicol N. "A fast, compact approximation of the exponential
  *   function." Neural Computation 11.4 (1999): 853-862.
  *
  * The approximation interpolates linearly between points on the curve of
@@ -36,7 +36,7 @@ enum class Approximation {SCHRAUDOLPH, PRODUCT};
 template
 <
     typename Real,
-    template<typename, size_t> class Approximation = Schraudolph,
+    template<typename, size_t> class Approximation = IEEE,
     size_t degree = 2
 >
 inline Real exp(const Real &x)
@@ -57,7 +57,7 @@ inline Real exp(const Real &x)
 template
 <
 typename Real,
-template<typename, size_t> typename Approximation = Schraudolph,
+template<typename, size_t> class Approximation = IEEE,
 size_t degree = 2
 >
 inline void exp(Real *x, size_t n) {
@@ -72,7 +72,7 @@ inline void exp(Real *x, size_t n) {
 template
 <
 typename Real,
-template<typename, size_t> typename Approximation = Schraudolph,
+template<typename, size_t> class Approximation = IEEE,
 size_t degree = 2
 >
 inline void exp(std::vector<Real> x) {

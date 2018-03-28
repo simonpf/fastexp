@@ -3,7 +3,7 @@
 
 #define DLL_PUBLIC __attribute__ ((visibility ("default")))
 
-using fastexp::Schraudolph;
+using fastexp::IEEE;
 using fastexp::Product;
 
 extern "C" {
