@@ -35,7 +35,7 @@ void benchmark_function(void (*f)(Real *, size_t),
 
     std::cout << std::left << std::setw(10) << name;
     std::cout << std::setprecision(7) << mean << " ";
-    std::cout << std::setprecision(7) << sigma << std::end;;
+    std::cout << std::setprecision(7) << sigma << std::endl;
 
     file << name << " " << mean << " " << sigma << std::endl;
 }
@@ -64,7 +64,7 @@ void benchmark_ieee(std::ofstream &file)
 {
     std::string name("IEEE ");
     name += std::to_string(i) + " ";
-    benchmark_function(&fastexp::exp<float, IEEE, i>,
+    benchmark_function(&fastexp::exp<Real, IEEE, i>,
                        name, 100000000, 10, file);
 }
 
@@ -73,33 +73,56 @@ void benchmark_product(std::ofstream &file)
 {
     std::string name("Product ");
     name += std::to_string(i) + " ";
-    benchmark_function(&fastexp::exp<float, Product, i>,
+    benchmark_function(&fastexp::exp<Real, Product, i>,
+                       name, 100000000, 10, file);
+}
+
+template<typename Real>
+void benchmark_standard(std::ofstream &file)
+{
+    std::string name("Standard 0 ");
+    benchmark_function(&exp<Real>,
                        name, 100000000, 10, file);
 }
 
 int main() {
 
-    std::string filename("results/${CMAKE_CXX_COMPILER_ID}_${CMAKE_CXX_COMPILER_VERSION}.dat");
+    std::string filename("results/float/${CMAKE_CXX_COMPILER_ID}__${CMAKE_CXX_COMPILER_VERSION}.dat");
     std::ofstream file;
-    file.open(filename);
+    file.open(filename, std::ofstream::out | std::ofstream::trunc);
 
     std::cout << std::left << std::setw(10) << "Method";
     std::cout << std::setw(8) << "Mean";
     std::cout << std::setw(8) << "Sigma" << std::endl;
 
     benchmark_ieee<float, 0>(file);
-    benchmark_ieee<float, 1>(file);
-    benchmark_ieee<float, 2>(file);
-    benchmark_ieee<float, 3>(file);
     benchmark_ieee<float, 4>(file);
-    benchmark_ieee<float, 5>(file);
     benchmark_ieee<float, 6>(file);
 
-    benchmark_product<float, 4>(file);
     benchmark_product<float, 6>(file);
-    benchmark_product<float, 8>(file);
     benchmark_product<float, 10>(file);
-    benchmark_product<float, 12>(file);
     benchmark_product<float, 14>(file);
-    benchmark_product<float, 16>(file);
+
+    benchmark_standard<float>(file);
+
+    file.close();
+    std::cout << std::endl << std::endl;
+
+    filename = "results/double/${CMAKE_CXX_COMPILER_ID}__${CMAKE_CXX_COMPILER_VERSION}.dat";
+    file.open(filename, std::ofstream::out | std::ofstream::trunc);
+
+    std::cout << std::left << std::setw(10) << "Method";
+    std::cout << std::setw(8) << "Mean";
+    std::cout << std::setw(8) << "Sigma" << std::endl;
+
+    benchmark_ieee<double, 0>(file);
+    benchmark_ieee<double, 2>(file);
+    benchmark_ieee<double, 4>(file);
+    benchmark_ieee<double, 6>(file);
+
+    benchmark_product<double, 6>(file);
+    benchmark_product<double, 10>(file);
+    benchmark_product<double, 14>(file);
+
+    benchmark_standard<double>(file);
 }
