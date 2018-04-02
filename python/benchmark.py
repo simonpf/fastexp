@@ -179,6 +179,7 @@ for i, f in enumerate(files):
     labels  += ["Std. Lib."]
 
     ax.set_ylim([1.0, t_max])
+    ax.set_ylabel("Compute time [ms]")
     ax.set_yscale("log")
     ax.set_xticks(x_ticks)
     ax.set_xticklabels(labels, rotation = 45)
