@@ -44,7 +44,7 @@ the approximation. This approximation should work well if
 
 - The absolute value of the argument x is larger than 1
 
-![img](./plots/fastexp_schraudolph_2.png)
+![img](./plots/fastexp_schraudolph_1.png)
 
 ## Performance
 
