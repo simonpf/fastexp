@@ -44,14 +44,16 @@ the approximation. This approximation should work well if
 
 - The absolute value of the argument x is larger than 1
 
-![img](./plots/fastexp_schraudolph_1.png)
+![img](./plots/fastexp_schraudolph_2.png)
 
 ## Performance
 
-So fast I was only able to evaluate performance on an
+So far, I was only able to run the benchmark   on an
 Intel Core i7-2640M CPU (2.80GHz). The plots below show
-the compute times for different approximations compared
-to the standard library implementations.
+compute times for different approximations compared
+to the standard library implementations. The benchmark
+scenario is the computation of the exponential function
+to an array containing 100 million elements.
 
 ### Single Precision
 
